@@ -5,27 +5,36 @@ public class TrainManagement {
     public static void main(String[] args) {
 
         System.out.println("=======================================");
-        System.out.println("UC3 - Track Unique Bogie IDs");
+        System.out.println("UC4 - Maintain Ordered Bogie Consist");
         System.out.println("=======================================\n");
 
-        // Create a Set to store unique bogie IDs
-        // HashSet stores only unique values
-        Set<String> bogies = new HashSet<>();
+        // Create LinkedList (maintains order + allows fast insert/delete)
+        List<String> trainConsist = new LinkedList<>();
 
-        // Add IDs (including duplicates)
-        bogies.add("B101");
-        bogies.add("B102");
-        bogies.add("B103");
-        bogies.add("B101"); // duplicate
-        bogies.add("B102"); // duplicate
+        // Add bogies in sequence
+        trainConsist.add("Engine");
+        trainConsist.add("Sleeper");
+        trainConsist.add("AC");
+        trainConsist.add("Cargo");
+        trainConsist.add("Guard");
 
-        // Display bogies
-        System.out.println("Bogie IDs After Insertion:");
-        System.out.println(bogies);
+        // Display initial consist
+        System.out.println("Initial Train Consist:");
+        System.out.println(trainConsist);
 
-        System.out.println("\nNote:");
-        System.out.println("Duplicates are automatically ignored by HashSet.");
+        // Insert at specific position (index 2)
+        trainConsist.add(2, "Pantry Car");
 
-        System.out.println("\nUC3 uniqueness validation completed...");
+        System.out.println("\nAfter Inserting 'Pantry Car' at position 2:");
+        System.out.println(trainConsist);
+
+        // Remove first and last bogie
+        trainConsist.remove(0); // remove Engine
+        trainConsist.remove(trainConsist.size() - 1); // remove Guard
+
+        System.out.println("\nAfter Removing First and Last Bogie:");
+        System.out.println(trainConsist);
+
+        System.out.println("\nUC4 ordered consist operations completed...");
     }
 }
