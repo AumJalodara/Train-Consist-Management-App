@@ -5,35 +5,27 @@ public class TrainManagement {
     public static void main(String[] args) {
 
         System.out.println("=======================================");
-        System.out.println("UC2 - Add Passenger Bogies to Train");
+        System.out.println("UC3 - Track Unique Bogie IDs");
         System.out.println("=======================================\n");
 
-        // Create ArrayList to hold passenger bogies
-        List<String> passengerBogies = new ArrayList<>();
+        // Create a Set to store unique bogie IDs
+        // HashSet stores only unique values
+        Set<String> bogies = new HashSet<>();
 
-        // Add bogies
-        passengerBogies.add("Sleeper");
-        passengerBogies.add("AC Chair");
-        passengerBogies.add("First Class");
+        // Add IDs (including duplicates)
+        bogies.add("B101");
+        bogies.add("B102");
+        bogies.add("B103");
+        bogies.add("B101"); // duplicate
+        bogies.add("B102"); // duplicate
 
-        // Display after adding
-        System.out.println("After Adding Bogies:");
-        System.out.println("Passenger Bogies : " + passengerBogies);
+        // Display bogies
+        System.out.println("Bogie IDs After Insertion:");
+        System.out.println(bogies);
 
-        // Remove "AC Chair"
-        passengerBogies.remove("AC Chair");
+        System.out.println("\nNote:");
+        System.out.println("Duplicates are automatically ignored by HashSet.");
 
-        System.out.println("\nAfter Removing 'AC Chair':");
-        System.out.println("Passenger Bogies : " + passengerBogies);
-
-        // Check if "Sleeper" exists
-        System.out.println("\nChecking if 'Sleeper' exists:");
-        System.out.println("Contains Sleeper? : " + passengerBogies.contains("Sleeper"));
-
-        // Final consist
-        System.out.println("\nFinal Train Passenger Consist:");
-        System.out.println(passengerBogies);
-
-        System.out.println("\nUC2 operations completed successfully...");
+        System.out.println("\nUC3 uniqueness validation completed...");
     }
 }
