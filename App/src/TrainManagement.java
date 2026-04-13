@@ -15,31 +15,32 @@ public class TrainManagement {
 
     public static void main(String[] args) {
 
-        System.out.println("=== UC12 - Safety Compliance Check for Goods Bogies ===\n");
+        System.out.println("===============================================");
+        System.out.println("UC12 - Safety Compliance Check for Goods Bogies");
+        System.out.println("===============================================\n");
 
-        // 🔹 Create list
-        List<GoodsBogie> bogies = new ArrayList<>();
+        // Create list
+        List<GoodsBogie> goodsBogies = new ArrayList<>();
 
-        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
-        bogies.add(new GoodsBogie("Open", "Coal"));
-        bogies.add(new GoodsBogie("Box", "Grain"));
-        bogies.add(new GoodsBogie("Cylindrical", "Coal")); // ❌ invalid
+        goodsBogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        goodsBogies.add(new GoodsBogie("Open", "Coal"));
+        goodsBogies.add(new GoodsBogie("Box", "Grain"));
+        goodsBogies.add(new GoodsBogie("Cylindrical", "Coal")); // ❌ invalid
 
-        // 🔹 Display
+        // Display
         System.out.println("Goods Bogies in Train:");
-        for (GoodsBogie b : bogies) {
+        for (GoodsBogie b : goodsBogies) {
             System.out.println(b.type + " -> " + b.cargo);
         }
 
-        // 🔹 Safety Rule:
-        // Cylindrical bogies must carry ONLY Petroleum
-        boolean isSafe = bogies.stream()
+        // Safety rule using allMatch()
+        boolean isSafe = goodsBogies.stream()
                 .allMatch(b ->
                         !b.type.equalsIgnoreCase("Cylindrical") ||
                                 b.cargo.equalsIgnoreCase("Petroleum")
                 );
 
-        // 🔹 Output
+        // Output
         System.out.println("\nSafety Compliance Status: " + isSafe);
 
         if (isSafe) {
