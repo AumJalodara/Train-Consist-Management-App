@@ -3,8 +3,9 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TrainManagementTest {
+public class TrainManagementTest {
 
+    // Same model for testing
     static class GoodsBogie {
         String type;
         String cargo;
@@ -15,48 +16,56 @@ class TrainManagementTest {
         }
     }
 
-    // 🔹 Helper method
+    // Logic method
     boolean checkSafety(List<GoodsBogie> bogies) {
         return bogies.stream()
                 .allMatch(b ->
                         !b.type.equalsIgnoreCase("Cylindrical") ||
-                                b.cargo.equalsIgnoreCase("Petroleum")
+                        b.cargo.equalsIgnoreCase("Petroleum")
                 );
     }
 
+    // TEST CASES
+
     @Test
-    void testSafety_AllBogiesValid() {
+    void testAllBogiesValid() {
         List<GoodsBogie> list = Arrays.asList(
                 new GoodsBogie("Cylindrical", "Petroleum"),
-                new GoodsBogie("Open", "Coal")
+                new GoodsBogie("Open", "Coal"),
+                new GoodsBogie("Box", "Grain")
         );
-
         assertTrue(checkSafety(list));
     }
 
     @Test
-    void testSafety_CylindricalWithInvalidCargo() {
+    void testInvalidCylindrical() {
         List<GoodsBogie> list = Arrays.asList(
                 new GoodsBogie("Cylindrical", "Coal")
         );
-
         assertFalse(checkSafety(list));
     }
 
     @Test
-    void testSafety_NonCylindricalBogiesAllowed() {
+    void testNonCylindricalAllowed() {
         List<GoodsBogie> list = Arrays.asList(
                 new GoodsBogie("Open", "Coal"),
                 new GoodsBogie("Box", "Grain")
         );
-
         assertTrue(checkSafety(list));
     }
 
     @Test
-    void testSafety_EmptyList() {
+    void testEmptyList() {
         List<GoodsBogie> list = new ArrayList<>();
+        assertTrue(checkSafety(list)); // important concept
+    }
 
-        assertTrue(checkSafety(list));
+    @Test
+    void testMixedValidInvalid() {
+        List<GoodsBogie> list = Arrays.asList(
+                new GoodsBogie("Cylindrical", "Petroleum"),
+                new GoodsBogie("Cylindrical", "Coal") // invalid
+        );
+        assertFalse(checkSafety(list));
     }
 }
