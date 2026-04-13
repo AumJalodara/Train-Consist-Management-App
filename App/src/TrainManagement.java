@@ -1,13 +1,19 @@
-import java.util.*;
-import java.util.stream.Collectors;
-
 public class TrainManagement {
 
-    static class Bogie {
+    static class InvalidCapacityException extends Exception {
+        public InvalidCapacityException(String message) {
+            super(message);
+        }
+    }
+
+    static class PassengerBogie {
         String type;
         int capacity;
 
-        Bogie(String type, int capacity) {
+        PassengerBogie(String type, int capacity) throws InvalidCapacityException {
+            if (capacity <= 0) {
+                throw new InvalidCapacityException("Capacity must be greater than zero");
+            }
             this.type = type;
             this.capacity = capacity;
         }
@@ -15,32 +21,21 @@ public class TrainManagement {
 
     public static void main(String[] args) {
 
-        List<Bogie> bogies = new ArrayList<>();
+        System.out.println("===========================================");
+        System.out.println("UC14 - Handle Invalid Bogie Capacity");
+        System.out.println("===========================================\n");
 
-        for (int i = 0; i < 100000; i++) {
-            bogies.add(new Bogie("Sleeper", i % 100));
+        try {
+            PassengerBogie b1 = new PassengerBogie("Sleeper", 72);
+            System.out.println("Created Bogie: " + b1.type + " -> " + b1.capacity);
+
+            PassengerBogie b2 = new PassengerBogie("AC Chair", 0);
+            System.out.println("Created Bogie: " + b2.type + " -> " + b2.capacity);
+
+        } catch (InvalidCapacityException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        long startLoop = System.nanoTime();
-
-        List<Bogie> loopResult = new ArrayList<>();
-        for (Bogie b : bogies) {
-            if (b.capacity > 60) {
-                loopResult.add(b);
-            }
-        }
-
-        long endLoop = System.nanoTime();
-
-        long startStream = System.nanoTime();
-
-        List<Bogie> streamResult = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
-
-        long endStream = System.nanoTime();
-
-        System.out.println("Loop Execution Time (ns): " + (endLoop - startLoop));
-        System.out.println("Stream Execution Time (ns): " + (endStream - startStream));
+        System.out.println("\nUC14 exception handling completed...");
     }
 }
