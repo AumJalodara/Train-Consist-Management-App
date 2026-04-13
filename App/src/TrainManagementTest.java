@@ -1,27 +1,51 @@
 import org.junit.jupiter.api.Test;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrainManagementTest {
 
-    int threshold = 50;
+    Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
+    Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
 
     @Test
-    void testFilter() {
-        List<TrainManagement.Bogie> result = TrainManagement.getBogies().stream()
-                .filter(b -> b.capacity > threshold)
-                .collect(Collectors.toList());
-
-        assertTrue(result.stream().allMatch(b -> b.capacity > threshold));
+    void testRegex_ValidTrainID() {
+        assertTrue(trainPattern.matcher("TRN-1234").matches());
     }
 
     @Test
-    void testReduce() {
-        int total = TrainManagement.getBogies().stream()
-                .map(b -> b.capacity)
-                .reduce(0, Integer::sum);
+    void testRegex_InvalidTrainIDFormat() {
+        assertFalse(trainPattern.matcher("TRN-12").matches());
+    }
 
-        assertEquals(222, total);
+    @Test
+    void testRegex_ValidCargoCode() {
+        assertTrue(cargoPattern.matcher("PET-AB").matches());
+    }
+
+    @Test
+    void testRegex_InvalidCargoCodeFormat() {
+        assertFalse(cargoPattern.matcher("PET-abc").matches());
+    }
+
+    @Test
+    void testRegex_TrainIDDigitLengthValidation() {
+        assertFalse(trainPattern.matcher("TRN-123").matches());
+    }
+
+    @Test
+    void testRegex_CargoCodeUppercaseValidation() {
+        assertFalse(cargoPattern.matcher("PET-ab").matches());
+    }
+
+    @Test
+    void testRegex_EmptyInputHandling() {
+        assertFalse(trainPattern.matcher("").matches());
+        assertFalse(cargoPattern.matcher("").matches());
+    }
+
+    @Test
+    void testRegex_ExactPatternMatch() {
+        assertFalse(trainPattern.matcher("TRN-12345").matches());
     }
 }
