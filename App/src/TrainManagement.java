@@ -1,98 +1,57 @@
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TrainManagement {
 
-    static void bubbleSort(int[] arr) {
-        int n = arr.length;
-import java.util.*;
-import java.util.stream.Collectors;
-
-public class TrainManagement {
-
-    // ----------- Bogie Class -----------
-    static class Bogie {
-        String name;
-        int capacity;
-
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
-
-        String getName() {
-            return name;
-        }
-
-        int getCapacity() {
-            return capacity;
-        }
-
-        @Override
-        public String toString() {
-            return name + " -> " + capacity;
-        }
-    }
-
-    // ----------- Main Program -----------
     public static void main(String[] args) {
 
-        int[] capacities = {72, 56, 24, 70, 60};
+        String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
 
         System.out.println("Before Sorting:");
-        for (int c : capacities) {
-            System.out.print(c + " ");
-        }
+        System.out.println(Arrays.toString(bogieNames));
 
-        bubbleSort(capacities);
+        Arrays.sort(bogieNames);
 
         System.out.println("\nAfter Sorting:");
-        for (int c : capacities) {
-            System.out.print(c + " ");
-        System.out.println("=======================================");
-        System.out.println(" UC9 - Group Bogies by Type ");
-        System.out.println("=======================================\n");
-
-        // Create List of Bogies
-        List<Bogie> bogies = new ArrayList<>();
-
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 56));
-        bogies.add(new Bogie("First Class", 24));
-        bogies.add(new Bogie("Sleeper", 70));
-        bogies.add(new Bogie("AC Chair", 60));
-
-        // Display All Bogies
-        System.out.println("All Bogies:");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+        System.out.println(Arrays.toString(bogieNames));
     }
 
     public static class TestCases {
 
-        // -------- GROUPING USING STREAM --------
-        Map<String, List<Bogie>> groupedBogies =
-                bogies.stream()
-                        .collect(Collectors.groupingBy(Bogie::getName));
-
-        // Display Grouped Bogies
-        System.out.println("\nGrouped Bogies:");
-
-        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
-
-            System.out.println("\nBogie Type: " + entry.getKey());
-
-            for (Bogie b : entry.getValue()) {
-                System.out.println("Capacity -> " + b.getCapacity());
-            }
+        @Test
+        void testSort_BasicAlphabeticalSorting() {
+            String[] arr = {"Sleeper","AC Chair","First Class","General","Luxury"};
+            Arrays.sort(arr);
+            assertArrayEquals(new String[]{"AC Chair","First Class","General","Luxury","Sleeper"}, arr);
         }
 
-        System.out.println("\nUC9 grouping completed...");
+        @Test
+        void testSort_UnsortedInput() {
+            String[] arr = {"Luxury","General","Sleeper","AC Chair"};
+            Arrays.sort(arr);
+            assertArrayEquals(new String[]{"AC Chair","General","Luxury","Sleeper"}, arr);
+        }
+
+        @Test
+        void testSort_AlreadySortedArray() {
+            String[] arr = {"AC Chair","First Class","General"};
+            Arrays.sort(arr);
+            assertArrayEquals(new String[]{"AC Chair","First Class","General"}, arr);
+        }
+
+        @Test
+        void testSort_DuplicateBogieNames() {
+            String[] arr = {"Sleeper","AC Chair","Sleeper","General"};
+            Arrays.sort(arr);
+            assertArrayEquals(new String[]{"AC Chair","General","Sleeper","Sleeper"}, arr);
+        }
+
+        @Test
+        void testSort_SingleElementArray() {
+            String[] arr = {"Sleeper"};
+            Arrays.sort(arr);
+            assertArrayEquals(new String[]{"Sleeper"}, arr);
+        }
     }
 }
