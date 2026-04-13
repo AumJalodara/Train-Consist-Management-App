@@ -1,50 +1,74 @@
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TrainManagement {
 
-    static class CargoSafetyException extends RuntimeException {
-        public CargoSafetyException(String message) {
-            super(message);
-        }
-    }
+    static void bubbleSort(int[] arr) {
+        int n = arr.length;
 
-    static class GoodsBogie {
-        String shape;
-        String cargo;
-
-        GoodsBogie(String shape) {
-            this.shape = shape;
-        }
-
-        void assignCargo(String cargo) {
-            try {
-                if (shape.equalsIgnoreCase("Rectangular") &&
-                        cargo.equalsIgnoreCase("Petroleum")) {
-                    throw new CargoSafetyException("Unsafe cargo assignment");
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
                 }
-
-                this.cargo = cargo;
-                System.out.println("Cargo assigned: " + shape + " -> " + cargo);
-
-            } catch (CargoSafetyException e) {
-                System.out.println("Error: " + e.getMessage());
-            } finally {
-                System.out.println("Assignment attempt completed");
             }
         }
     }
 
     public static void main(String[] args) {
 
-        System.out.println("UC15 - Safe Cargo Assignment\n");
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        b1.assignCargo("Petroleum");
+        System.out.println("Before Sorting:");
+        for (int c : capacities) {
+            System.out.print(c + " ");
+        }
 
-        GoodsBogie b2 = new GoodsBogie("Rectangular");
-        b2.assignCargo("Petroleum");
+        bubbleSort(capacities);
 
-        GoodsBogie b3 = new GoodsBogie("Rectangular");
-        b3.assignCargo("Coal");
+        System.out.println("\nAfter Sorting:");
+        for (int c : capacities) {
+            System.out.print(c + " ");
+        }
+    }
 
-        System.out.println("\nProgram continues...");
+    public static class TestCases {
+
+        @Test
+        void testSort_BasicSorting() {
+            int[] arr = {72, 56, 24, 70, 60};
+            bubbleSort(arr);
+            assertArrayEquals(new int[]{24, 56, 60, 70, 72}, arr);
+        }
+
+        @Test
+        void testSort_AlreadySortedArray() {
+            int[] arr = {24, 56, 60, 70, 72};
+            bubbleSort(arr);
+            assertArrayEquals(new int[]{24, 56, 60, 70, 72}, arr);
+        }
+
+        @Test
+        void testSort_DuplicateValues() {
+            int[] arr = {72, 56, 56, 24};
+            bubbleSort(arr);
+            assertArrayEquals(new int[]{24, 56, 56, 72}, arr);
+        }
+
+        @Test
+        void testSort_SingleElementArray() {
+            int[] arr = {50};
+            bubbleSort(arr);
+            assertArrayEquals(new int[]{50}, arr);
+        }
+
+        @Test
+        void testSort_AllEqualValues() {
+            int[] arr = {40, 40, 40};
+            bubbleSort(arr);
+            assertArrayEquals(new int[]{40, 40, 40}, arr);
+        }
     }
 }
