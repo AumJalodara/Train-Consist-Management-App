@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
 public class TrainManagement {
 
@@ -9,25 +9,19 @@ public class TrainManagement {
 
         System.out.println("=== UC11 - Validate Train ID and Cargo Code ===\n");
 
-        // 🔹 Input
         System.out.print("Enter Train ID (Format: TRN-1234): ");
         String trainId = scanner.nextLine();
 
         System.out.print("Enter Cargo Code (Format: PET-AB): ");
         String cargoCode = scanner.nextLine();
 
-        // 🔹 Regex Patterns
+        // Regex patterns
         Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
         Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
 
-        // 🔹 Matching
-        Matcher trainMatcher = trainPattern.matcher(trainId);
-        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+        boolean isTrainValid = trainPattern.matcher(trainId).matches();
+        boolean isCargoValid = cargoPattern.matcher(cargoCode).matches();
 
-        boolean isTrainValid = trainMatcher.matches();
-        boolean isCargoValid = cargoMatcher.matches();
-
-        // 🔹 Output
         System.out.println("\nValidation Results:");
         System.out.println("Train ID Valid: " + isTrainValid);
         System.out.println("Cargo Code Valid: " + isCargoValid);
