@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TrainManagementTest {
 
+    // Regex patterns
     Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
     Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
+
+    // 🔹 VALID CASES
 
     @Test
     void testRegex_ValidTrainID() {
@@ -14,19 +17,23 @@ class TrainManagementTest {
     }
 
     @Test
-    void testRegex_InvalidTrainIDFormat() {
-        assertFalse(trainPattern.matcher("TRN-12").matches());
-    }
-
-    @Test
     void testRegex_ValidCargoCode() {
         assertTrue(cargoPattern.matcher("PET-AB").matches());
+    }
+
+    // 🔹 INVALID CASES
+
+    @Test
+    void testRegex_InvalidTrainIDFormat() {
+        assertFalse(trainPattern.matcher("TRN-12").matches());
     }
 
     @Test
     void testRegex_InvalidCargoCodeFormat() {
         assertFalse(cargoPattern.matcher("PET-abc").matches());
     }
+
+    // 🔹 EDGE CASES
 
     @Test
     void testRegex_TrainIDDigitLengthValidation() {
