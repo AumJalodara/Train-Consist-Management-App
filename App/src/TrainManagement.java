@@ -1,10 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TrainManagement {
 
-    // Reusing Bogie model
+    // ----------- Bogie Class -----------
     static class Bogie {
         String name;
         int capacity;
@@ -14,48 +13,59 @@ public class TrainManagement {
             this.capacity = capacity;
         }
 
+        String getName() {
+            return name;
+        }
+
+        int getCapacity() {
+            return capacity;
+        }
+
         @Override
         public String toString() {
-            return name + " (Capacity: " + capacity + ")";
+            return name + " -> " + capacity;
         }
     }
 
-    // Method for filtering bogies using Stream API
-    public static List<Bogie> filterBogiesByCapacity(List<Bogie> bogies, int threshold) {
-        return bogies.stream()
-                .filter(b -> b.capacity > threshold) // key condition
-                .collect(Collectors.toList());
-    }
-
+    // ----------- Main Program -----------
     public static void main(String[] args) {
 
-        System.out.println("=========================================");
-        System.out.println(" UC8 - Filter Passenger Bogies Using Streams ");
-        System.out.println("=========================================\n");
+        System.out.println("=======================================");
+        System.out.println(" UC9 - Group Bogies by Type ");
+        System.out.println("=======================================\n");
 
-        // Create list of bogies
+        // Create List of Bogies
         List<Bogie> bogies = new ArrayList<>();
+
         bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 56));
+        bogies.add(new Bogie("First Class", 24));
+        bogies.add(new Bogie("Sleeper", 70));
         bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("First Class", 50));
-        bogies.add(new Bogie("General", 90));
 
-        int threshold = 70;
-
-        // Apply stream filtering
-        List<Bogie> filteredBogies = filterBogiesByCapacity(bogies, threshold);
-
-        // Display filtered bogies
-        System.out.println("Bogies with capacity greater than " + threshold + ":\n");
-
-        if (filteredBogies.isEmpty()) {
-            System.out.println("No bogies match the criteria.");
-        } else {
-            filteredBogies.forEach(System.out::println);
+        // Display All Bogies
+        System.out.println("All Bogies:");
+        for (Bogie b : bogies) {
+            System.out.println(b);
         }
 
-        // Verify original list unchanged
-        System.out.println("\nOriginal Bogie List:");
-        bogies.forEach(System.out::println);
+        // -------- GROUPING USING STREAM --------
+        Map<String, List<Bogie>> groupedBogies =
+                bogies.stream()
+                        .collect(Collectors.groupingBy(Bogie::getName));
+
+        // Display Grouped Bogies
+        System.out.println("\nGrouped Bogies:");
+
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+
+            System.out.println("\nBogie Type: " + entry.getKey());
+
+            for (Bogie b : entry.getValue()) {
+                System.out.println("Capacity -> " + b.getCapacity());
+            }
+        }
+
+        System.out.println("\nUC9 grouping completed...");
     }
 }
